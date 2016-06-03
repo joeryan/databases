@@ -9,6 +9,7 @@ cur.executescript('''
 DROP TABLE IF EXISTS Artist;
 DROP TABLE IF EXISTS Album;
 DROP TABLE IF EXISTS Track;
+DROP TABLE IF EXISTS Genre;
 
 CREATE TABLE Artist (
     id  INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
@@ -16,9 +17,8 @@ CREATE TABLE Artist (
 );
 
 CREATE TABLE Genre (
-    id INTEGER NOT NULL PRMARY CEY AUTOINCREMENT UNIQUE,
-    artist_id INTEGER,
-    title TEXT UNIQUE
+    id INTEGER NOT NULL PRIMARY kEY AUTOINCREMENT UNIQUE,
+    name TEXT UNIQUE
 );
 
 CREATE TABLE Album (
@@ -80,7 +80,7 @@ for entry in all:
     cur.execute('SELECT id FROM Album WHERE title = ? ', (album, ))
     album_id = cur.fetchone()[0]
 
-    cur.execute('''INSERT OR IGNORE INTO Genre (genre)
+    cur.execute('''INSERT OR IGNORE INTO Genre (name)
         VALUES ( ? )''', (genre, ))
     cur.execute('SELECT id FROM Genre WHERE name = ?' , (genre,))
     genre_id = cur.fetchone()[0]
