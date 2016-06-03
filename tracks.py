@@ -32,6 +32,7 @@ CREATE TABLE Track (
         AUTOINCREMENT UNIQUE,
     title TEXT  UNIQUE,
     album_id  INTEGER,
+    genre_id INTEGER,
     len INTEGER, rating INTEGER, count INTEGER
 );
 ''')
@@ -82,9 +83,12 @@ for entry in all:
 
     cur.execute('''INSERT OR IGNORE INTO Genre (name)
         VALUES ( ? )''', (genre, ))
-    cur.execute('SELECT id FROM Genre WHERE name = ?' , (genre,))
-    genre_id = cur.fetchone()[0]
-
+    if genre != None:
+        cur.execute('SELECT id FROM Genre WHERE name = ?' , (genre,))
+        genre_id = cur.fetchone()[0] or None
+    else:
+        genre_id = None
+        
     cur.execute('''INSERT OR REPLACE INTO Track
         (title, album_id, genre_id, len, rating, count)
         VALUES ( ?, ?, ?, ?, ?, ? )''',
